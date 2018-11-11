@@ -51,6 +51,7 @@ def hello():
 @app.route('/webhook', methods=['GET','POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
+    res = 0
     if type(req) == dict:
     #print('Request:')
     #print(json.dumps(req, indent=4))
