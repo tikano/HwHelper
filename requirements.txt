@@ -1,5 +1,4 @@
 gunicorn
 flask
 future
-pip3 install google-api-python-client oauth2client
-
+pip --upgrade
