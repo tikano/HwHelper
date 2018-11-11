@@ -217,23 +217,23 @@ CAL = build('calendar', 'v3', http = creds.authorize(HTTP()))
 now = str(datetime.datetime.today()).split()[0]
 EVENT = {
   'summary': block1 + " homework",
-  'start': {'dateTime': (now + 'T04:00:00%s)},
-  'end': {'dateTime': (now + 'T05:00:00%s)},
+  'start': {'dateTime': (now + 'T04:00:00%s')},
+  'end': {'dateTime': (now + 'T05:00:00%s')},
 }
 EVENT2 = {
   'summary': block2 + " homework",
-  'start': {'dateTime': (now + 'T05:00:00%s)},
-  'end': {'dateTime': (now + 'T06:00:00%s)},
+  'start': {'dateTime': (now + 'T05:00:00%s')},
+  'end': {'dateTime': (now + 'T06:00:00%s')},
 }
 EVENT3 = {
   'summary': block3 + " homework",
-  'start': {'dateTime': (now + 'T06:00:00%s)},
-  'end': {'dateTime': (now + 'T07:00:00%s)},
+  'start': {'dateTime': (now + 'T06:00:00%s')},
+  'end': {'dateTime': (now + 'T07:00:00%s')},
 }
 EVENT4 = {
   'summary': block4 + " homework",
-  'start': {'dateTime': (now + 'T07:00:00%s)},
-  'end': {'dateTime': (now + 'T08:00:00%s)},
+  'start': {'dateTime': (now + 'T07:00:00%s')},
+  'end': {'dateTime': (now + 'T08:00:00%s')},
 }
 CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT).execute()
 CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT2).execute()
