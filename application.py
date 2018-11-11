@@ -235,7 +235,7 @@ EVENT4 = {
   'start': {'dateTime': (now + 'T07:00:00%s')},
   'end': {'dateTime': (now + 'T08:00:00%s')},
 }
-CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT).execute()
-CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT2).execute()
-CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT3).execute()
-CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT4).execute()
+e = CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT).execute()
+e = CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT2).execute()
+e = CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT3).execute()
+e = CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT4).execute()
