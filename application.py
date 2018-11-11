@@ -118,7 +118,7 @@ def makeWebhookResult(data, parameters):
         return {'speech': 'No location or item or units',
                 'displayText': 'No location or item or units',
                 'source': 'apiai-weather-webhook-sample'}
-    return(4)
+    return('hello')
 
     condition = item.get('condition')
     type1 = parameters.get('type1')
