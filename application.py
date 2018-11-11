@@ -67,7 +67,7 @@ def webhook():
     return r
 
 def processRequest(req):
-    result = req.get('result')
+    result = 4
     parameters = result.get('parameters')
        #print(json.dumps(parameters, indent=4))
     baseurl = 'https://query.yahooapis.com/v1/public/yql?'
