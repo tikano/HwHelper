@@ -67,8 +67,9 @@ def webhook():
     return r
 
 def processRequest(req):
-    result = 4
-    parameters = req.get('parameters')
+    if type(req) == dict:
+        result = req.get('result')
+        parameters = result.get('parameters')
         #print(json.dumps(parameters, indent=4))
     baseurl = 'https://query.yahooapis.com/v1/public/yql?'
     yql_query = makeYqlQuery(req)
@@ -83,7 +84,7 @@ def processRequest(req):
 
 
 def makeYqlQuery(req):
-    result = 4
+    result = req.get('result')
     parameters = req.get('parameters')
     city = parameters.get('geo-city')
     if city is None:
