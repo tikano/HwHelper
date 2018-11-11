@@ -16,7 +16,7 @@ from flask import request
 from flask import make_response
 from flask import render_template
 
-
+app.debug = True
 # Flask app should start in global layout
 type1 = 0
 type2 = 0
