@@ -84,6 +84,7 @@ def processRequest(req):
 
 
 def makeYqlQuery(req):
+  if type(req) == dict:
     result = req.get('result')
     parameters = req.get('parameters')
     city = parameters.get('geo-city')
