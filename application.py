@@ -51,12 +51,12 @@ def hello():
 @app.route('/webhook', methods=['GET','POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-
+    if type(req) == dict:
     #print('Request:')
     #print(json.dumps(req, indent=4))
-    res = processRequest(req)
-    res = json.dumps(res, indent=4)
-    print(res)
+        res = processRequest(req)
+        res = json.dumps(res, indent=4)
+        print(res)
 
     # Extract current fcast
     # curr_fcast = res['query']['results']['channel']['item']['forecast']
