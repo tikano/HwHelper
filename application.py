@@ -212,3 +212,30 @@ if not creds or creds.invalid:
   creds = tools.run_flow(flow, store, flags) \
       if flags else tools.run(flow, store)
 CAL = build('calendar', 'v3', http = creds.authorize(HTTP()))
+
+EST_OFF = -12:00
+now = str(datetime.datetime.today()).split()[0]
+EVENT = {
+  'summary': block1 + " homework",
+  'start': {'dateTime': (now + 'T04:00:00%s) % EST_OFF},
+  'end': {'dateTime': (now + 'T05:00:00%s) % EST_OFF},
+}
+EVENT2 = {
+  'summary': block2 + " homework",
+  'start': {'dateTime': (now + 'T05:00:00%s) % EST_OFF},
+  'end': {'dateTime': (now + 'T06:00:00%s) % EST_OFF},
+}
+EVENT3 = {
+  'summary': block3 + " homework",
+  'start': {'dateTime': (now + 'T06:00:00%s) % EST_OFF},
+  'end': {'dateTime': (now + 'T07:00:00%s) % EST_OFF},
+}
+EVENT4 = {
+  'summary': block4 + " homework",
+  'start': {'dateTime': (now + 'T07:00:00%s) % EST_OFF},
+  'end': {'dateTime': (now + 'T08:00:00%s) % EST_OFF},
+}
+CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT).execute()
+CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT2).execute()
+CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT3).execute()
+CAL.events().insert(calendarId = 'primary', sendNotifications = True, body = EVENT4).execute()
