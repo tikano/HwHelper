@@ -1,6 +1,8 @@
 from __future__ import print_function
 from future.standard_library import install_aliases
 install_aliases()
+from flask import render_template
+
 
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
@@ -35,7 +37,12 @@ class application:
     self.difficulty = difficulty
     self.dueDate = dueDate
     self.priority = difficulty - 4*dueDate
+
     
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404   
 app = Flask(__name__)
 applications = []
 @app.route('/hello')
