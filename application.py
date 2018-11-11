@@ -48,7 +48,7 @@ applications = []
 def hello():
     return render_template('index.html')
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/webhook', methods=['GET','POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
 
