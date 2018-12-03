@@ -1,126 +1,78 @@
-from __future__ import print_function
-from future.standard_library import install_aliases
-install_aliases()
-from flask import render_template
 
-
-from urllib.parse import urlparse, urlencode
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
-
+import urllib
 import json
 import os
 
 from flask import Flask
 from flask import request
 from flask import make_response
-from flask import render_template
-
 
 # Flask app should start in global layout
-type1 = 0
-type2 = 0
-type3 = 0
-type4 = 0
-subject1 = 0
-subject2 = 0
-subject3 = 0
-subject4 = 0
-date1 = 0
-date2 = 0
-date3 = 0
-date4 = 0
-class application:
-
-  def __init__(self, difficulty, subject , dueDate):
-    self.subject = subject
-    self.difficulty = difficulty
-    self.dueDate = dueDate
-    self.priority = difficulty - 4*dueDate
-
-    
-def page_not_found(e):
-    # note that we set the 404 status explicitly
-    return render_template('404.html'), 404   
 app = Flask(__name__)
-applications = []
-@app.route('/hello')
-def hello():
-    return render_template('index.html')
 
-@app.route('/webhook', methods=['GET','POST'])
+
+@app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-    res = 0
-    if type(req) == dict:
-    #print('Request:')
-    #print(json.dumps(req, indent=4))
-        res = processRequest(req)
-        res = json.dumps(res, indent=4)
-        print(res)
 
-    # Extract current fcast
-    # curr_fcast = res['query']['results']['channel']['item']['forecast']
-    # curr_fcast_text = curr_fcast['text']
-    
+    print("Request:")
+    print(json.dumps(req, indent=4))
+
+    res = processRequest(req)
+
+    res = json.dumps(res, indent=4)
+    # print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
+
 def processRequest(req):
-    if type(req) == dict:
-        result = req.get('result')
-        parameters = result.get('parameters')
-        #print(json.dumps(parameters, indent=4))
-    baseurl = 'https://query.yahooapis.com/v1/public/yql?'
+    if req.get("result").get("action") != "yahooWeatherForecast":
+        return {}
+    baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + '&format=json'
-    result = urlopen(yql_url).read()
+    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
+    print(yql_url)
+
+    result = urllib.urlopen(yql_url).read()
+    print("yql result: ")
+    print(result)
+
     data = json.loads(result)
-        #print(data)
-    res = makeWebhookResult(data, parameters)
+    res = makeWebhookResult(data)
     return res
 
 
 def makeYqlQuery(req):
-  if type(req) == dict:
-    result = req.get('result')
-    parameters = req.get('parameters')
-    city = parameters.get('geo-city')
-    if city is None:
-        return None
-    #print(city)
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" \
-        + city + "')"
+    parameters = result.get("parameters")
 
 
-def makeWebhookResult(data, parameters):
+def makeWebhookResult(data):
     query = data.get('query')
     if query is None:
         return {}
 
     result = query.get('results')
-    #print(json.dumps(parameters, indent=4))
     if result is None:
-        return {'speech': 'No Result', 'displayText': 'No Result',
-                'source': 'apiai-weather-webhook-sample'}
+        return {}
+
     channel = result.get('channel')
     if channel is None:
-        return {'speech': 'No Channel', 'displayText': 'No Channel',
-                'source': 'apiai-weather-webhook-sample'}
+        return {}
 
     item = channel.get('item')
     location = channel.get('location')
     units = channel.get('units')
-    if location is None or item is None or units is None:
-        return {'speech': 'No location or item or units',
-                'displayText': 'No location or item or units',
-                'source': 'apiai-weather-webhook-sample'}
-    return('hello')
+    if (location is None) or (item is None) or (units is None):
+        return {}
 
     condition = item.get('condition')
+    if condition is None:
+        return {}
+    
     type1 = parameters.get('type1')
     type2 = parameters.get('type2')
     type3 = parameters.get('type3')
