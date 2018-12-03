@@ -11,7 +11,7 @@ from flask import make_response
 app = Flask(__name__)
 
 
-@app.route('/webhook', methods=['GET'])
+@app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
 
@@ -28,9 +28,6 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
-        return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
